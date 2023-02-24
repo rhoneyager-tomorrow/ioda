@@ -311,13 +311,18 @@ class Validator : public eckit::Main {
         // The variable name is reported as group/name. Split this up into
         //  group and name components.
         const vector<string> splitName = ioda::splitPaths(v.name);
-        if (splitName.size() != 2) {
+	string group, name;
+	if (splitName.size() == 2) {
+		group = splitName[0];
+		name = splitName[1];
+	} else if (splitName.size() == 1) {
+		group = "/";
+		name = splitName[0];
+	} else {
           log(Severity::Error, res_)
             << "Skipping processing of '" << v.name << "'. Unsure how to parse this name.\n";
           continue;
         }
-        const string group = splitName[0];
-        const string name  = splitName[1];
 
         {
           LogContext lg(string("Variable ").append(v.name));
