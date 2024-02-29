@@ -199,6 +199,18 @@ struct IODA_HIDDEN Vlen_data {
   hvl_t& operator[](size_t idx) { return (buf).get()[idx]; }
 };
 
+/// @brief Check for any HDF5-related errors and encapsulate these errors as an exception.
+/// @throws ioda::Exception if any exception was detected. The contents of the exception will
+///   contain the HDF5 error stack.
+IODA_HIDDEN void hdf5_error_check();
+
+/// @brief Gets the name of the file that contains the given object id.
+///   Useful for debugging.
+/// @param obj_id is the object.
+/// @returns The name of the file to which the object belongs.
+/// @throws ioda::Exception if obj_id is invalid.
+IODA_HIDDEN std::string getFileNameFromIdentifier(hid_t obj_id);
+
 /// @brief Gets a variable / group / link name from an id. Useful for debugging.
 /// @param obj_id is the object.
 /// @return One of the possible object names.
